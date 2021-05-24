@@ -33,4 +33,4 @@ Feel free to open an issue to suggest a change, addition of a command/feature or
 If you would like to work on the issue yourself, create a pull request.
 
 # License
-This project is licensed under the MIT License, see the [License](License) file for details.
+This project is licensed under the MIT License, see the [License](LICENSE) file for details.
