@@ -9,7 +9,7 @@ cd CosmicDiversBot
 ```
 Create a .env file with following variables:
 ```
-BOT_TOKEN=<your bot toke>
+BOT_TOKEN=<your bot token>
 MONGO_URI=<MongoDB URI>
 CRASH_WEBHOOK_ID=<Webhook ID to post crash reports>
 THUMBNAIL_URL=<Image URL to use as thumbnail in embed created by help command>
