@@ -1,0 +1,4 @@
+discord.py==1.7.2
+motor==2.4.0
+dnspython==2.1.0
+git+https://github.com/Rapptz/discord-ext-menus
