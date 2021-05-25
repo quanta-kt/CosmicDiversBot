@@ -22,6 +22,7 @@ extensions = (
     "cdbot.ext.util",
     "cdbot.ext.info",
     "cdbot.ext.config",
+    "cdbot.ext.moderation",
 )
 
 class CDBot(commands.Bot):
