@@ -35,7 +35,7 @@ class CustomHelp(commands.MinimalHelpCommand):
                + f"\n\nMade with <3 by **{config.CREATOR_NAME}**""")
 
     def get_command_signature(self, command):
-        return f"{command.qualified_name} {command.signature}".strip()
+        return f"{self.clean_prefix}{command.qualified_name} {command.signature}".strip()
 
     def add_command_formatting(self, command: commands.Command):
         if command.description:
