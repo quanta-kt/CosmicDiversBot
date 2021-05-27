@@ -60,17 +60,20 @@ class PeriodicTable:
 
     @staticmethod
     def embed(element: dict) -> discord.Embed:
-        embed = discord.Embed(title=element["name"], colour=int(element["cpk-hex"], base=16))        
-        embed.url = element["source"]
+        element = element.copy()  # make sure we don't make changes to the passed dictionary
+
+        embed = discord.Embed(title=element.pop("name"), colour=int(element.pop("cpk-hex"), base=16))        
+        embed.url = element.pop("source")
+
+        embed.add_field(name="Boiling point", value=str(element.pop("boil")) + ' K')
+        embed.add_field(name="Melting point", value=str(element.pop("melt")) + ' K')
+
+        element.pop("spectral_img")  # unused
 
         for key, value in element.items():
-            if key in ("name", "cpk-hex", "source", "spectral_img"):  # don't add
-                continue
-
             # Transform lists to comma separated values
             if isinstance(value, list):
                 value = ", ".join(str(x) for x in value)
-            
             embed.add_field(name=" ".join(key.split("_")).title(), value=value)
 
         return embed
