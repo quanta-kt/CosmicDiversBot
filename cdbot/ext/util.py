@@ -1,11 +1,9 @@
-from typing import Dict
-import aiohttp
 import discord
-from discord import colour
 from discord.ext import commands, menus
+from typing import Union
 from ..bot import CDBot
 from .. import config
-from ..services import WikipediaApi
+from ..services import ElementNotFoundError, PeriodicTable, WikipediaApi
 
 
 class WikipediaSearchResultsSource(menus.AsyncIteratorPageSource):
@@ -65,12 +63,30 @@ class Util(commands.Cog):
     def __init__(self, bot: CDBot) -> None:
         super().__init__()
         self.wikipedia_api = WikipediaApi(bot.http_client)
+        self.periodic_table = PeriodicTable()
 
     @commands.command()
     async def wiki(self, ctx: commands.Context, *, query: str):
         """Fetch articles from Wikipedia.org"""
         source = WikipediaSearchResultsSource(query, self.wikipedia_api)
         await menus.MenuPages(source).start(ctx)
+
+    @commands.command()
+    async def element(self, ctx: commands.Context, search: Union[int, str]) -> None:
+        """Get info of an element on the periodic table. Search by name or the atomic number"""
+        if isinstance(search, str):
+            element = self.periodic_table.get_element_by_name(search)
+        else:
+            element = self.periodic_table.get_element_by_atomic_number(search)
+        
+        await ctx.send(embed=PeriodicTable.embed(element))
+    
+    @element.error
+    async def element_error(self, ctx: commands.Context, error: commands.CommandError):
+        if isinstance(error, ElementNotFoundError):
+            await ctx.send(embed=discord.Embed(description=str(error), colour=config.COLOUR_ERROR))
+        else:
+            raise error
 
 
 def setup(bot: CDBot):
